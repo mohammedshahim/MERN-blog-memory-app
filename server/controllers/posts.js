@@ -2,6 +2,7 @@
 //run in the same folder it will make more complex. so we can control function in this file
 
 import PostMessage from "../models/postMessage";
+import mongoose from "mongoose";
 
 export const getPosts = async (req, res) => {
   try {
@@ -29,9 +30,10 @@ export const createPost = async (req, res) => {
 
 export const updatePost = async (req, res) => {
   const { id: _id } = req.params;
+
   const post = req.body;
 
-  if (mongoose.Types.ObjectId.isValid(_id))
+  if (!mongoose.Types.ObjectId.isValid(_id))
     return res.status(404).send("No post with that id"); //check the id is valid or not and if true return error message
 
   const updatedPost = await PostMessage.findByIdAndUpdate(_id, post, {

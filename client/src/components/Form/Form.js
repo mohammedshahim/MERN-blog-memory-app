@@ -1,6 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { TextField, Button, Typography, Paper } from "@material-ui/core";
 import FileBase from "react-file-base64";
+import { useSelector } from "react-redux";
 
 import useStyle from "./styles";
 import { useDispatch } from "react-redux";
@@ -14,14 +15,23 @@ const Form = ({ currentId, setCurrentId }) => {
     tags: "",
     selectedFile: "",
   });
+  const post = useSelector((state) =>
+    currentId ? state.posts.find((p) => p._id === currentId) : null
+  ); // if the currentId is set then find the curesponding id form the state and set it in post
+
   const classes = useStyle();
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    //this useEffect will work only if the post is set using useSelector in other word if you click on edit
+    if (post) setPostData(post);
+  }, [post]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
     if (currentId) {
-      dispatch(createPost(updatePost(currentId, postData))); //if the id passed from the base App.js is set then only this will work
+      dispatch(updatePost(currentId, postData)); //if the id passed from the base App.js is set then only this will work
     } else {
       dispatch(createPost(postData)); //for new post creation current id will set to null so it CurrentId is not have any value. so this will create a new post.
     }
