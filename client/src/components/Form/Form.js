@@ -4,9 +4,9 @@ import FileBase from "react-file-base64";
 
 import useStyle from "./styles";
 import { useDispatch } from "react-redux";
-import { createPost } from "../../actions/posts";
+import { createPost, updatePost } from "../../actions/posts";
 
-const Form = () => {
+const Form = ({ currentId, setCurrentId }) => {
   const [postData, setPostData] = useState({
     creator: "",
     title: "",
@@ -19,7 +19,12 @@ const Form = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    dispatch(createPost(postData));
+
+    if (currentId) {
+      dispatch(createPost(updatePost(currentId, postData))); //if the id passed from the base App.js is set then only this will work
+    } else {
+      dispatch(createPost(postData)); //for new post creation current id will set to null so it CurrentId is not have any value. so this will create a new post.
+    }
   };
 
   const clear = () => {};
