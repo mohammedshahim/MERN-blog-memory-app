@@ -94,7 +94,9 @@ const Form = ({ currentId, setCurrentId }) => {
           label="Tags"
           fullWidth
           value={postData.tags}
-          onChange={(e) => setPostData({ ...postData, tags: e.target.value })}
+          onChange={(e) =>
+            setPostData({ ...postData, tags: e.target.value.split(",") })
+          } //before using split it retrun value in string. after using split(,) it will split the string with using ',' and retrun to array
         />
         <div className={classes.fileInput}>
           <FileBase
