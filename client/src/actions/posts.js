@@ -57,3 +57,15 @@ export const deletePost = (id) => async (dispatch) => {
     console.log(error);
   }
 };
+
+export const likePost = (id) => async (dispatch) => {
+  try {
+    const { data } = await api.likePost(id);
+    dispatch({
+      type: "UPDATE", //here when you look at reducers they have LIKE case, but here we giving UPDATE because both UPDATE and LIKE have doing same function. so we can give any one, no issue for that.
+      payload: data,
+    });
+  } catch (error) {
+    console.log(error);
+  }
+};
