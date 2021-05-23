@@ -42,6 +42,6 @@ export const updatePost = (id, post) => async (dispatch) => {
       payload: data,
     });
   } catch (error) {
-    console.log(error.message);
+    console.log(error);
   }
 };

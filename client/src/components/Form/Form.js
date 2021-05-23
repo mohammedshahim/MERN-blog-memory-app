@@ -24,7 +24,7 @@ const Form = ({ currentId, setCurrentId }) => {
 
   useEffect(() => {
     //this useEffect will work only if the post is set using useSelector in other word if you click on edit
-    if (post) setPostData(post);
+    if (post) setPostData(post); //all data from post will set in postData (like id, createdAt, ...) insted of pre set object in postData
   }, [post]);
 
   const handleSubmit = (e) => {
@@ -35,9 +35,19 @@ const Form = ({ currentId, setCurrentId }) => {
     } else {
       dispatch(createPost(postData)); //for new post creation current id will set to null so it CurrentId is not have any value. so this will create a new post.
     }
+    clear(); // this will clear the input field after click on submit button
   };
 
-  const clear = () => {};
+  const clear = () => {
+    setCurrentId(null);
+    setPostData({
+      creator: "",
+      title: "",
+      message: "",
+      tags: "",
+      selectedFile: "",
+    });
+  };
 
   return (
     <Paper className={classes.paper}>
@@ -47,7 +57,9 @@ const Form = ({ currentId, setCurrentId }) => {
         className={`${classes.root} ${classes.form}`}
         onSubmit={handleSubmit}
       >
-        <Typography variant="h6">Creating a Memory</Typography>
+        <Typography variant="h6">
+          {currentId ? "Editing" : "Creating"} a Memory
+        </Typography>
         <TextField
           name="creator"
           variant="outlined"
